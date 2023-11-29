@@ -27,6 +27,10 @@
           align-items: center;
           text-align: center;
       }
+
+      h1 {
+        color: white;
+      }
   
       /* Category Menu Styles */
       #categories {
@@ -71,9 +75,11 @@
     <div id="errorMessage" style="display: none;">Error loading prompts. Please try again later.</div>
 
     <div id="categories">
-        <div class="category-link" onclick="displayRandomPrompt('whispers')">Whispers</div>
-        <div class="category-link" onclick="displayRandomPrompt('starry_skies')">Starry Skies</div>
-        <div class="category-link" onclick="displayRandomPrompt('heartbeats')">Heartbeats</div>
+        <h1>Cards for Couples</h1>
+        <div class="category-link" onclick="displayRandomPrompt('appetizers')">Appetizers (Getting to Know Someone)</div>
+        <div class="category-link" onclick="displayRandomPrompt('main_courses')">Main Courses (Deepening Connections)</div>
+        <div class="category-link" onclick="displayRandomPrompt('desserts')">Desserts (Future Hopes and Dreams)</div>
+        <div class="category-link" onclick="displayRandomPrompt('cocktails')">Cocktails (Spicier After Dark Themes)</div>
     </div>
     <div id="cardDisplay" onclick="showMenu()"></div>
 

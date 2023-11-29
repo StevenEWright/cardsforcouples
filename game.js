@@ -1,7 +1,8 @@
 // Data arrays
-var whispers = [];
-var heartbeats = [];
-var starry_skies = [];
+var appetizers = [];
+var main_courses = [];
+var desserts = [];
+var cocktails = [];
 
 // Fetch prompts from JSON files
 function fetchPrompts() {
@@ -13,15 +14,17 @@ function fetchPrompts() {
   document.getElementById('errorMessage').style.display = 'none';
 
   Promise.all([
-      fetch('./whispers.json').then(response => response.json()),
-      fetch('./heartbeats.json').then(response => response.json()),
-      fetch('./starry_skies.json').then(response => response.json())
+      fetch('./appetizers.json').then(response => response.json()),
+      fetch('./main_courses.json').then(response => response.json()),
+      fetch('./desserts.json').then(response => response.json()),
+      fetch('./cocktails.json').then(response => response.json())
   ])
   .then(data => {
       // Data is an array of results from the above promises
-      whispers = data[0];
-      heartbeats = data[1];
-      starry_skies = data[2];
+      appetizers = data[0];
+      main_courses = data[1];
+      desserts = data[2];
+      cocktails = data[3];
 
       // Hide loading indicator and show menu
       showMenu();
@@ -37,7 +40,7 @@ function fetchPrompts() {
 // Call fetchPrompts when the window loads
 window.onload = fetchPrompts;
 
-function createSVGCard(prompt, svgNS, cardWidth, cardHeight) {
+function createSVGCard(prompt, category, svgNS, cardWidth, cardHeight) {
   var borderThickness = 5; // Proportional border thickness
   var borderRadius = 15;
   var backgroundColor = "#73628A"; // Updated background color
@@ -55,24 +58,10 @@ function createSVGCard(prompt, svgNS, cardWidth, cardHeight) {
 
       text {
           font-family: 'Open Sans', sans-serif;
-          font-size: 14px;
           fill: white;
       }
   `;
   card.appendChild(style);
-
-  var defs = document.createElementNS(svgNS, "defs");
-  var clipPath = document.createElementNS(svgNS, "clipPath");
-  clipPath.setAttribute("id", "clipHeart");
-  var clipRect = document.createElementNS(svgNS, "rect");
-  clipRect.setAttribute("width", cardWidth - borderThickness);
-  clipRect.setAttribute("height", cardHeight - borderThickness);
-  clipRect.setAttribute("x", borderThickness / 2);
-  clipRect.setAttribute("y", borderThickness / 2);
-  clipRect.setAttribute("rx", borderRadius - borderThickness / 2);
-  clipPath.appendChild(clipRect);
-  defs.appendChild(clipPath);
-  card.appendChild(defs);
 
   // Background Rectangle with Border
   var rect = document.createElementNS(svgNS, "rect");
@@ -86,29 +75,33 @@ function createSVGCard(prompt, svgNS, cardWidth, cardHeight) {
   rect.setAttribute("rx", borderRadius - borderThickness / 2);
   card.appendChild(rect);
 
-  // Add heart shape in the background
-  // var heart = document.createElementNS(svgNS, "path");
-  // heart.setAttribute("id", "heart");
-  // heart.setAttribute("d", "M 12 7 C 12 7 8 3 4 7 C 0 11 4 20 12 28 C 20 20 24 11 20 7 C 16 3 12 7 12 7 Z");
-  // heart.setAttribute("transform", "translate(-100, 100) rotate(-45) scale(10)");
-  // heart.setAttribute("fill", heartColor);
-  // heart.style.opacity = '0.6'; // Make the heart unobtrusive
-  // card.appendChild(heart);
+  // Category Text at the top
+  var categoryText = document.createElementNS(svgNS, "text");
+  categoryText.setAttribute("x", "50%");
+  categoryText.setAttribute("y", "20");
+  categoryText.setAttribute("text-anchor", "middle");
+  categoryText.style.fontSize = "18px";
+  categoryText.textContent = category;
+  card.appendChild(categoryText);
 
-  var useClipPath = document.createElementNS(svgNS, "use");
-  useClipPath.setAttribute("clip-path", "url(#clipHeart)");
-  useClipPath.setAttribute("href", "#heart");
-  card.appendChild(useClipPath);
-
-  // Create text element for wrapping
+  // Create text element for prompt
   var text = document.createElementNS(svgNS, "text");
-  text.setAttribute("fill", "white");
+  text.setAttribute("x", "50%");
+  text.setAttribute("y", "50%");
+  text.setAttribute("text-anchor", "middle");
   text.style.fontSize = "28px";
   card.appendChild(text);
 
+  // Website at the bottom
+  var websiteText = document.createElementNS(svgNS, "text");
+  websiteText.setAttribute("x", "50%");
+  websiteText.setAttribute("y", cardHeight - 20);
+  websiteText.setAttribute("text-anchor", "middle");
+  websiteText.style.fontSize = "12px";
+  websiteText.textContent = "CardsForCouples.app";
+  card.appendChild(websiteText);
+
   // // Add SVG to the DOM temporarily for text wrapping
-  // card.style.position = 'absolute';
-  // card.style.visibility = 'hidden'; // Hide but allow rendering
   document.body.appendChild(card);
 
   // Wrap the text
@@ -176,16 +169,24 @@ function displayRandomPrompt(category) {
   var cardWidth = 600;
   var cardHeight = 300;
 
+  var title = "";
   var prompts = [];
   switch (category) {
-      case 'whispers':
-          prompts = whispers;
+      case 'appetizers':
+          title = "Appetizers";
+          prompts = appetizers;
           break;
-      case 'heartbeats':
-          prompts = heartbeats;
+      case 'main_courses':
+          title = "Main Courses";
+          prompts = main_courses;
           break;
-      case 'starry_skies':
-          prompts = starry_skies;
+      case 'desserts':
+          title = "Desserts";
+          prompts = desserts;
+          break;
+      case 'cocktails':
+          title = "Cocktails";
+          prompts = cocktails;
           break;
   }
 
@@ -193,7 +194,7 @@ function displayRandomPrompt(category) {
   var cardDisplay = document.getElementById("cardDisplay");
   cardDisplay.innerHTML = ''; // Clear previous content
   var img = document.createElement('img');
-  createSVGCard(randomPrompt, svgNS, cardWidth, cardHeight).then(url => {
+  createSVGCard(randomPrompt, title, svgNS, cardWidth, cardHeight).then(url => {
     img.src = url;
   });
   cardDisplay.appendChild(img);
