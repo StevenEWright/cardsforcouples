@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cards for Couples</title>
+    <style>
+      /* General Styles */
+      html {
+          background-color: #131515;
+          height: 90%;
+          width: 90%;
+          margin: 5%;
+          padding: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+      }
+
+      body {
+          background-color: #131515;
+          height: 100%;
+          width: 100%;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+      }
+  
+      /* Category Menu Styles */
+      #categories {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+          align-items: center;
+      }
+  
+      .category-link {
+          cursor: pointer;
+          margin: 10px;
+          padding: 10px;
+          border: 1px solid #000;
+          font-size: 20px;
+          background-color: #f0f0f0;
+          width: 80%; /* Responsive width */
+      }
+  
+      /* Card Display Styles */
+      #cardDisplay {
+          display: none; /* Hidden by default */
+          width: 100%; /* Full width */
+          height: 100%; /* Full height */
+          justify-content: center;
+          align-items: center;
+      }
+
+      #cardDisplay img {
+          max-width: 100%; /* Full height, maintain aspect ratio */
+          height: 100%;
+      }
+  </style>
+</head>
+<body>
+    <!-- Loading Indicator -->
+    <div id="loadingIndicator" style="display: none;">Loading...</div>
+
+    <!-- Error Message -->
+    <div id="errorMessage" style="display: none;">Error loading prompts. Please try again later.</div>
+
+    <div id="categories">
+        <div class="category-link" onclick="displayRandomPrompt('whispers')">Whispers</div>
+        <div class="category-link" onclick="displayRandomPrompt('starry_skies')">Starry Skies</div>
+        <div class="category-link" onclick="displayRandomPrompt('heartbeats')">Heartbeats</div>
+    </div>
+    <div id="cardDisplay" onclick="showMenu()"></div>
+
+    <script src="game.js"></script>
+</body>
+</html>
